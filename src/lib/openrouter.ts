@@ -8,20 +8,23 @@ type OpenRouterChatResponse = {
 };
 
 export async function generateOpenRouterResult(taskType: TaskType, inputText: string) {
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
   if (!apiKey) {
     throw new Error("Missing OPENROUTER_API_KEY");
   }
 
   // "openrouter/auto" is a safer default across accounts/free tier than hard-coding gpt-3.5-turbo.
   const model = process.env.OPENROUTER_MODEL ?? "openrouter/auto";
+  const siteUrl =
+    process.env.OPENROUTER_SITE_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "HTTP-Referer": process.env.OPENROUTER_SITE_URL ?? "http://localhost:3000",
+      "HTTP-Referer": siteUrl,
       "X-Title": "Mini OpenClaw",
     },
     body: JSON.stringify({
