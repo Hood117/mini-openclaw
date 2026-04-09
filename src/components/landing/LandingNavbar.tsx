@@ -77,7 +77,7 @@ export function LandingNavbar() {
             <a href="#">Login</a>
           </Button>
           <Button size="sm" className="hidden sm:inline-flex" asChild>
-            <a href="#cta">Get Started</a>
+            <a href="/app">Get Started</a>
           </Button>
           <Button
             type="button"

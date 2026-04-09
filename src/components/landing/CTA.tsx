@@ -44,7 +44,7 @@ export function CTA() {
               className="h-11 gap-2 px-8 text-base shadow-xl shadow-violet-500/30"
               asChild
             >
-              <a href="#demo">
+              <a href="/app">
                 <Rocket className="size-4" aria-hidden />
                 Launch App
               </a>

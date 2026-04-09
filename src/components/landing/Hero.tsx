@@ -86,7 +86,7 @@ export function Hero() {
           >
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
               <Button size="lg" className="shadow-lg shadow-violet-500/25" asChild>
-                <a href="#cta">Get Started</a>
+                <a href="/app">Get Started</a>
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
