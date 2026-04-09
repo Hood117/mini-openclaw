@@ -14,24 +14,40 @@ type ThinkingTerminalProps = {
   className?: string;
   title?: string;
   lineIntervalMs?: number;
+  /**
+   * When provided, the terminal becomes state-driven:
+   * - active=false: idle, no looping
+   * - active=true: reveals lines until complete, then stays "thinking" until inactive
+   */
+  active?: boolean;
 };
 
 export function ThinkingTerminal({
   className,
   title = "Thinking…",
   lineIntervalMs = 700,
+  active,
 }: ThinkingTerminalProps) {
   const [lineCount, setLineCount] = useState(0);
 
   useEffect(() => {
+    if (active === false) {
+      setLineCount(0);
+      return;
+    }
     const id = setInterval(() => {
       setLineCount((n) => {
-        if (n >= STEPS.length) return 0;
+        if (n >= STEPS.length) {
+          // If state-driven and active, hold on final line.
+          if (active === true) return STEPS.length;
+          // Otherwise loop for demo/landing use.
+          return 0;
+        }
         return n + 1;
       });
     }, lineIntervalMs);
     return () => clearInterval(id);
-  }, [lineIntervalMs]);
+  }, [lineIntervalMs, active]);
 
   const visible = STEPS.slice(0, lineCount);
 
@@ -72,6 +88,20 @@ export function ThinkingTerminal({
           >
             Awaiting task…
           </motion.span>
+        )}
+        {active === true && visible.length === STEPS.length && (
+          <motion.div
+            className="mt-2 flex items-center gap-2 text-emerald-500/70"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <motion.span
+              className="inline-block size-2 rounded-full bg-emerald-500/70"
+              animate={{ opacity: [0.25, 1, 0.25] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            />
+            <span>Working…</span>
+          </motion.div>
         )}
       </div>
     </div>

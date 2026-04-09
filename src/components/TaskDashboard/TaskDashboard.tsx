@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 import type { TaskHistoryItem, TaskType } from "@/types/task";
 import { TaskInputPanel } from "@/components/TaskInputPanel/TaskInputPanel";
 import { TaskHistoryPanel } from "@/components/TaskHistoryPanel/TaskHistoryPanel";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { TASK_TYPES } from "@/lib/taskTypes";
 
 const HISTORY_KEY = "mini_openclaw_task_history_v1";
@@ -122,31 +123,31 @@ export function TaskDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-500/10 via-transparent to-sky-500/10">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-500/15 text-2xl shadow-sm">
-                🐾
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
-                  Mini OpenClaw – Your Personal AI Task Assistant
-                </h1>
-                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
-                  Turn raw ideas into summaries, posts, and schedules—powered by OpenRouter.
-                </p>
-              </div>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <motion.header
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
+        className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+      >
+        <div>
+          <div className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-violet-600/15 text-violet-700 shadow-sm dark:bg-violet-500/20 dark:text-violet-200">
+              <Sparkles className="size-5" aria-hidden />
+            </div>
+            <div>
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+                BrainHub Dashboard
+              </h1>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                Summaries, social drafts, and daily plans — powered by your AI agent.
+              </p>
             </div>
           </div>
+        </div>
+      </motion.header>
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-          </div>
-        </header>
-
-        <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-[1.6fr_1fr]">
+      <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-[1.6fr_1fr]">
           <TaskInputPanel
             taskType={taskType}
             inputText={inputText}
@@ -169,12 +170,11 @@ export function TaskDashboard() {
               }
             }}
           />
-        </div>
-
-        <footer className="mt-8 text-xs text-zinc-500 dark:text-zinc-400">
-          Built for portfolios: smooth UI, local history, and a secure server-side OpenRouter call.
-        </footer>
       </div>
+
+      <footer className="mt-10 text-xs text-slate-500 dark:text-slate-400">
+        Built for portfolios: smooth UI, local history, and a secure server-side OpenRouter call.
+      </footer>
     </div>
   );
 }

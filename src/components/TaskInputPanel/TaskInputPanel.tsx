@@ -1,9 +1,28 @@
 "use client";
 
 import { useMemo } from "react";
+import { motion } from "framer-motion";
+import { Copy, Sparkles } from "lucide-react";
 import type { TaskType } from "@/types/task";
 import { TASK_TYPES } from "@/lib/taskTypes";
 import { Spinner } from "@/components/ui/Spinner";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ThinkingTerminal } from "@/components/landing/ThinkingTerminal";
+import { cn } from "@/lib/utils";
 
 type Props = {
   taskType: TaskType;
@@ -35,145 +54,170 @@ export function TaskInputPanel({
   const canSubmit = !loading && inputText.trim().length > 0;
 
   return (
-    <section className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-sm backdrop-blur-sm lg:p-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="text-2xl" aria-hidden>
-              {meta.icon}
+    <motion.section
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.45 }}
+    >
+      <motion.div
+        whileHover={{ scale: 1.01, y: -2 }}
+        transition={{ type: "spring", stiffness: 400, damping: 26 }}
+      >
+        <Card className="border-slate-200/90 bg-white/90 shadow-xl backdrop-blur dark:border-white/10 dark:bg-slate-900/80">
+          <CardHeader>
+            <div className="mb-1 inline-flex items-center gap-2 rounded-full border border-violet-500/25 bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-700 dark:border-violet-400/30 dark:bg-violet-500/15 dark:text-violet-200">
+              <Sparkles className="size-3.5" aria-hidden />
+              BrainHub Task Runner
             </div>
-            <div>
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                Task Input
-              </h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-300">
-                Choose a mode, paste your text, and let OpenRouter handle the rest.
-              </p>
+            <CardTitle className="text-lg">Task Input</CardTitle>
+            <CardDescription>
+              Choose a mode, paste your text, and let the agent handle the rest.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            <label className="grid gap-2">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                  Task type
+                </span>
+              </div>
+              <Select
+                value={taskType}
+                onValueChange={(v) => setTaskType(v as TaskType)}
+              >
+                <SelectTrigger aria-label="Select task type">
+                  <SelectValue placeholder="Select a task type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TASK_TYPES.map((t) => (
+                    <SelectItem key={t.id} value={t.id}>
+                      {t.icon} {t.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </label>
+
+            <label className="grid gap-2">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                  Your instructions
+                </span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">
+                  {inputText.trim().length ? `${inputText.trim().length} chars` : " "}
+                </span>
+              </div>
+              <textarea
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                rows={6}
+                placeholder={meta.placeholder}
+                className={cn(
+                  "w-full resize-none rounded-2xl border border-slate-200/80 bg-slate-50/70 p-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500",
+                  "focus:ring-2 focus:ring-violet-500/45 dark:border-white/10 dark:bg-slate-950/40 dark:text-white dark:placeholder:text-slate-500",
+                )}
+              />
+            </label>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <motion.div whileHover={{ scale: canSubmit ? 1.02 : 1 }} whileTap={{ scale: canSubmit ? 0.98 : 1 }}>
+                <Button
+                  type="button"
+                  size="lg"
+                  disabled={!canSubmit}
+                  onClick={() => onGenerate(taskType, inputText)}
+                  className={cn(
+                    "h-11 rounded-2xl px-6 shadow-lg shadow-violet-500/25",
+                    !canSubmit && "opacity-60",
+                  )}
+                >
+                  {loading ? <Spinner label="Generating…" /> : <span>Generate</span>}
+                </Button>
+              </motion.div>
+
+              <div className="text-xs text-slate-500 dark:text-slate-400">
+                Uses OpenRouter API. Your key stays on the server.
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <div className="mt-5 grid gap-4">
-        <label className="grid gap-2">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-              Task type
-            </span>
-          </div>
-          <select
-            value={taskType}
-            onChange={(e) => setTaskType(e.target.value as TaskType)}
-            className="h-11 w-full rounded-2xl border border-white/10 bg-white/5 px-4 text-sm text-zinc-900 outline-none ring-indigo-500/0 transition focus:ring-2 focus:ring-indigo-500/60 dark:text-zinc-100"
-          >
-            {TASK_TYPES.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.icon} {t.label}
-              </option>
-            ))}
-          </select>
-        </label>
+      {/* Output + real loading-driven thinking */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.45, delay: 0.05 }}
+        className="mt-5"
+      >
+        <motion.div
+          whileHover={{ scale: 1.01, y: -2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 26 }}
+        >
+          <Card className="border-slate-200/90 bg-white/90 shadow-xl backdrop-blur dark:border-white/10 dark:bg-slate-900/80">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <CardTitle className="text-lg">Results</CardTitle>
+                  <CardDescription>
+                    {loading
+                      ? "AI is processing your request…"
+                      : output.trim().length
+                        ? "Here’s what the agent produced."
+                        : "Submit a task to see results."}
+                  </CardDescription>
+                </div>
 
-        <label className="grid gap-2">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-              Your instructions
-            </span>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
-              {inputText.trim().length ? `${inputText.trim().length} chars` : " "}
-            </span>
-          </div>
-          <textarea
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            rows={6}
-            placeholder={meta.placeholder}
-            className="w-full resize-none rounded-2xl border border-white/10 bg-white/5 p-3 text-sm text-zinc-900 outline-none ring-indigo-500/0 transition placeholder:text-zinc-500 focus:ring-2 focus:ring-indigo-500/60 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-          />
-        </label>
+                {output.trim().length > 0 && !loading ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(output);
+                      } catch {
+                        // ignore
+                      }
+                    }}
+                    className="gap-2"
+                  >
+                    <Copy className="size-4" aria-hidden />
+                    Copy
+                  </Button>
+                ) : null}
+              </div>
+            </CardHeader>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button
-            type="button"
-            disabled={!canSubmit}
-            onClick={() => onGenerate(taskType, inputText)}
-            className={[
-              "relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-2xl px-6 font-semibold",
-              "transition-transform duration-200",
-              canSubmit ? "bg-indigo-600 text-white hover:scale-[1.02]" : "bg-white/10 text-zinc-400",
-              "disabled:cursor-not-allowed",
-            ].join(" ")}
-          >
-            {loading ? (
-              <Spinner label="Generating…" />
-            ) : (
-              <>
-                <span aria-hidden>⚡</span>
-                <span>Generate</span>
-              </>
-            )}
-          </button>
+            <CardContent className="space-y-4">
+              <ThinkingTerminal active={loading} title="Thinking…" lineIntervalMs={550} />
 
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">
-            Uses OpenRouter API. Your key stays on the server.
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 rounded-2xl border border-white/10 bg-zinc-50/40 p-4 dark:bg-black/20">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              AI Output
-            </h3>
-            <p className="text-xs text-zinc-600 dark:text-zinc-300">
-              {loading
-                ? "Working…"
-                : output.trim().length
-                  ? "Here’s what OpenRouter produced."
-                  : "Submit a task to see results."}
-            </p>
-          </div>
-
-          {output.trim().length > 0 && !loading ? (
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(output);
-                } catch {
-                  // Clipboard might be blocked in some contexts; UI will still show output.
-                }
-              }}
-              className="rounded-xl border border-black/10 bg-white/70 px-3 py-2 text-xs font-semibold text-zinc-900 transition hover:bg-white dark:border-white/10 dark:bg-black/20 dark:text-zinc-100"
-            >
-              Copy result
-            </button>
-          ) : null}
-        </div>
-
-        <div className="mt-3">
-          {error ? (
-            <p className="text-sm font-medium text-rose-600 dark:text-rose-300">
-              {error}
-            </p>
-          ) : output.trim().length ? (
-            <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-zinc-800 dark:text-zinc-200">
-              {output}
-            </div>
-          ) : loading ? (
-            <div className="flex items-center gap-3 text-sm text-zinc-700 dark:text-zinc-200">
-              <span className="inline-block h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
-              Generating output…
-            </div>
-          ) : (
-            <div className="text-sm text-zinc-600 dark:text-zinc-400">
-              Paste your task above and hit <span className="font-semibold">Generate</span>.
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
+              {error ? (
+                <p className="text-sm font-medium text-rose-600 dark:text-rose-300">
+                  {error}
+                </p>
+              ) : output.trim().length ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="whitespace-pre-wrap break-words rounded-2xl border border-violet-500/15 bg-gradient-to-br from-violet-500/10 to-transparent p-4 text-sm leading-relaxed text-slate-800 dark:text-slate-200 dark:from-violet-500/12"
+                >
+                  {output}
+                </motion.div>
+              ) : (
+                <div className="text-sm text-slate-600 dark:text-slate-400">
+                  Paste your task above and hit <span className="font-semibold">Generate</span>.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }
 
