@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mini OpenClaw – Your Personal AI Task Assistant",
-  description: "A clean AI task manager built with Next.js and OpenRouter.",
+  title: "BrainHub – Personal AI Task Manager",
+  description:
+    "Summarize, plan, and create content with BrainHub — your intelligent AI task assistant.",
 };
 
 export default function RootLayout({
@@ -26,7 +27,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground flex flex-col">
         <AnimatedCursor />
