@@ -70,8 +70,8 @@ export function TaskInputPanel({
               <Sparkles className="size-3.5" aria-hidden />
               BrainHub Task Runner
             </div>
-            <CardTitle className="text-lg">Task Input</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-lg dark:text-white">Task Input</CardTitle>
+            <CardDescription className="text-slate-600 dark:text-gray-300">
               Choose a mode, paste your text, and let the agent handle the rest.
             </CardDescription>
           </CardHeader>
@@ -161,8 +161,8 @@ export function TaskInputPanel({
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <CardTitle className="text-lg">Results</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg dark:text-white">Results</CardTitle>
+                  <CardDescription className="text-slate-600 dark:text-gray-300">
                     {loading
                       ? "AI is processing your request…"
                       : output.trim().length

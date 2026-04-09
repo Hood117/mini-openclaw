@@ -43,8 +43,8 @@ export function TaskHistoryPanel({ history, onClear }: Props) {
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <CardTitle className="text-lg">Task History</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg dark:text-white">Task History</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-gray-300">
                   Last {Math.min(history.length, 10)} tasks stored locally on this device.
                 </CardDescription>
               </div>

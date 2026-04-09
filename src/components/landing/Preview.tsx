@@ -67,8 +67,10 @@ export function Preview() {
                     Daily planner preview
                   </span>
                 </div>
-                <CardTitle className="text-lg">Today — focused blocks</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg dark:text-white">
+                  Today — focused blocks
+                </CardTitle>
+                <CardDescription className="text-slate-600 dark:text-gray-300">
                   AI-structured schedule you can tweak in seconds.
                 </CardDescription>
               </CardHeader>
@@ -90,7 +92,7 @@ export function Preview() {
                     <CheckCircle2
                       className={
                         row.done
-                          ? "mt-0.5 size-4 shrink-0 text-emerald-500"
+                          ? "mt-0.5 size-4 shrink-0 text-emerald-500 dark:text-emerald-400"
                           : "mt-0.5 size-4 shrink-0 text-slate-300 dark:text-slate-600"
                       }
                     />

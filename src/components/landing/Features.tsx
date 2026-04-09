@@ -114,10 +114,10 @@ export function Features() {
                 >
                   <CardHeader>
                     <div className="mb-1 flex size-10 items-center justify-center rounded-lg bg-violet-500/12 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300">
-                      <Icon className="size-5" aria-hidden />
+                      <Icon className="size-5 text-violet-600 dark:text-violet-200" aria-hidden />
                     </div>
-                    <CardTitle className="text-base">{title}</CardTitle>
-                    <CardDescription className="text-sm leading-relaxed">
+                    <CardTitle className="text-base dark:text-white">{title}</CardTitle>
+                    <CardDescription className="text-sm leading-relaxed text-slate-600 dark:text-gray-300">
                       {description}
                     </CardDescription>
                   </CardHeader>

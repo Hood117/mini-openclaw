@@ -114,8 +114,8 @@ export function Hero() {
           />
           <Card className="relative border-slate-200/90 bg-white/90 shadow-2xl backdrop-blur dark:border-white/10 dark:bg-slate-900/90">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Quick task</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-base dark:text-white">Quick task</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-gray-300">
                 Describe what you need — BrainHub handles the rest.
               </CardDescription>
             </CardHeader>

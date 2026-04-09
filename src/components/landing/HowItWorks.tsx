@@ -68,7 +68,7 @@ export function HowItWorks() {
                   aria-hidden
                 >
                   <div className="flex items-center justify-center pr-6">
-                    <ArrowRight className="size-5 text-violet-500/50" />
+                    <ArrowRight className="size-5 text-violet-500/50 dark:text-violet-300/50" />
                   </div>
                 </div>
               )}
@@ -82,16 +82,16 @@ export function HowItWorks() {
                   <span className="text-xs font-mono font-medium text-violet-600 dark:text-violet-400">
                     {step.n}
                   </span>
-                  <CardTitle className="flex items-center gap-2 text-lg">
+                  <CardTitle className="flex items-center gap-2 text-lg dark:text-white">
                     {step.title}
                     {step.terminal && (
                       <Terminal
-                        className="size-4 text-emerald-500/90"
+                        className="size-4 text-emerald-500/90 dark:text-emerald-400/90"
                         aria-hidden
                       />
                     )}
                   </CardTitle>
-                  <CardDescription className="text-sm leading-relaxed">
+                  <CardDescription className="text-sm leading-relaxed text-slate-600 dark:text-gray-300">
                     {step.body}
                   </CardDescription>
                 </CardHeader>
@@ -103,15 +103,15 @@ export function HowItWorks() {
                       </div>
                       <ul className="space-y-1.5">
                         <li className="flex gap-2">
-                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500/80" />
+                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500/80 dark:text-emerald-400/80" />
                           <span>[1/3] Understanding request…</span>
                         </li>
                         <li className="flex gap-2">
-                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500/80" />
+                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500/80 dark:text-emerald-400/80" />
                           <span>[2/3] Processing data…</span>
                         </li>
                         <li className="flex gap-2">
-                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500/80" />
+                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500/80 dark:text-emerald-400/80" />
                           <span>[3/3] Generating output…</span>
                         </li>
                       </ul>
