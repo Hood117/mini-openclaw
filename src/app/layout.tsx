@@ -1,18 +1,6 @@
-import { Analytics } from "@vercel/analytics/react"
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body>
-        {children}
-        <Analytics />
-      </body>
-    </html>
-  )
-}
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { AnimatedCursor } from "@/components/AnimatedCursor";
 
@@ -46,6 +34,7 @@ export default function RootLayout({
       <body className="min-h-full bg-background text-foreground flex flex-col">
         <AnimatedCursor />
         {children}
+        <Analytics />
       </body>
     </html>
   );
